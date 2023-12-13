@@ -48,7 +48,7 @@
             <div class="draggableBtn" onclick="openNavDest()">☰</div>
             <div id="SidepaneDest" class="SidepaneDest">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNavDest()">×</a>
-                <div class="draggable dropbtn">DESTINATIONS</div>
+                <div class="draggable dropbtn"Destinations</div>
             </div>
         </div>
         <div class="watermarkDest">
@@ -98,7 +98,7 @@
                 if (!draggedElement.hasClass("dropped")) {
                     if ((targetArea.is("#source-area") && draggedElement.text() === "Sources") ||
                         (targetArea.is("#transit-area") && draggedElement.text() === "Transformations") ||
-                        (targetArea.is("#destination-area") && draggedElement.text() === "destinations")) {
+                        (targetArea.is("#destination-area") && draggedElement.text() === "Destinations")) {
                         var droppedElement = draggedElement.clone();
                         droppedElement.removeClass("ui-draggable-dragging");
                         droppedElement.draggable({ revert: "invalid", containment: getContainment(targetArea) });
