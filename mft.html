@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MFT Portal</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/mft.css')}}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
+</head>
+
+<body>
+
+    <header>
+        <h2>MFT-Onboarding Portal</h2>
+    </header>
+
+    <div class="container">
+        <div class="work-area" id="source-area">
+            
+                <div class="draggableBtn" onclick="openNav()">☰</div>
+                <div id="mySidepanel1" class="sidepanel">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                    <div class="dropdown">
+                        <div class="draggable dropbtn">Sources</div>
+                        
+                    </div>
+                </div>
+                <div class="watermarkSource">
+                    <h1>SOURCES</h1>
+               </div>
+        </div>
+        
+        <div class="work-area" id="transit-area">
+            <div class="draggableBtn" onclick="openNavTransit()">☰</div>
+            <div id="SidepanelTransit" class="SidepanelTransit">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNavTransit()">×</a>
+                <div class="draggable dropbtn">Transformations</div>
+            </div>
+        </div>
+        <div class="watermarkTransit">
+            <h1>TRANSFORMATIONS</h1>
+       </div>
+        <div class="work-area" id="destination-area">
+            <div class="draggableBtn" onclick="openNavDest()">☰</div>
+            <div id="SidepaneDest" class="SidepaneDest">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNavDest()">×</a>
+                <div class="draggable dropbtn">DESTINATIONS</div>
+            </div>
+        </div>
+        <div class="watermarkDest">
+            <h1>DESTINATIONS</h1>
+       </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $(".draggable").draggable({ revert: "invalid", helper: "clone" });
+ 
+            var sourceArea = $("#source-area");
+            var transitArea = $("#transit-area");
+            var destinationArea = $("#destination-area");
+ 
+            sourceArea.droppable({
+                accept: ".draggable",
+                drop: function (event, ui) {
+                    handleDrop(event, ui, sourceArea);
+                }
+            });
+ 
+            transitArea.droppable({
+                accept: ".draggable",
+                drop: function (event, ui) {                
+                    handleDrop(event, ui, transitArea);
+                }
+            });
+ 
+            destinationArea.droppable({
+                accept: ".draggable",
+                drop: function (event, ui) {
+                    handleDrop(event, ui, destinationArea);
+                }
+            });
+ 
+            $("#source-area, #destination-area, #transit-area").on("contextmenu", ".dropped", function (event) {
+                event.preventDefault();
+                var element = $(this);
+                if (window.confirm("Do you want to delete this element?")) {
+                    deleteElement(element);
+                }
+            });
+ 
+            function handleDrop(event, ui, targetArea) {
+                var draggedElement = $(ui.helper).data("original") || $(ui.helper);
+                if (!draggedElement.hasClass("dropped")) {
+                    if ((targetArea.is("#source-area") && draggedElement.text() === "Source") ||
+                        (targetArea.is("#transit-area") && draggedElement.text() === "Transformation") ||
+                        (targetArea.is("#destination-area") && draggedElement.text() === "destination")) {
+                        var droppedElement = draggedElement.clone();
+                        droppedElement.removeClass("ui-draggable-dragging");
+                        droppedElement.draggable({ revert: "invalid", containment: getContainment(targetArea) });
+                        droppedElement.addClass("dropped");
+                       
+                        // Add dropdown list to the dropped element
+                        droppedElement.hover(
+                            function () {
+                                // Show hover effect by appending a styled list
+                                var list = $('<ul class="hover-list"><li>SFTP</li><li>FTP</li><li>SAMBA</li></ul>');
+                                $(this).append(list);
+                            },
+                            function () {
+                                // Remove the list when the mouse leaves
+                                $(this).find('.hover-list').remove();
+                            }
+                        );
+ 
+                        $(targetArea).append(droppedElement); // Append to the source area not working
+
+                        targetArea.append(droppedElement);
+                    }
+                }
+            }
+ 
+            function getContainment(area) {
+                if (area.is("#source-area") || area.is("#destination-area") || area.is("#transit-area")) {
+                    return "parent";
+                }
+                return false;
+            }
+ 
+            function deleteElement(element) {
+                element.remove();
+            }
+            
+        });
+        function openNav() {
+            document.getElementById("mySidepanel1").style.width = "200px";
+            
+          }
+          
+          function closeNav() {
+            document.getElementById("mySidepanel1").style.width = "0";
+          }
+        function openNavTransit() {
+            document.getElementById("SidepanelTransit").style.width = "200px";
+            
+          }
+          
+          function closeNavTransit() {
+            document.getElementById("SidepanelTransit").style.width = "0";
+          }
+        function openNavDest() {
+            document.getElementById("SidepaneDest").style.width = "200px";
+            
+          }
+          
+          function closeNavDest() {
+            document.getElementById("SidepaneDest").style.width = "0";
+          }
+    </script>
+    <footer class="footer">
+        <p>&copy; 2023 XYZ XYZ</p>
+    </footer>
+</body>
+
+</html>
