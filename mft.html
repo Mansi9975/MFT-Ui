@@ -96,9 +96,9 @@
             function handleDrop(event, ui, targetArea) {
                 var draggedElement = $(ui.helper).data("original") || $(ui.helper);
                 if (!draggedElement.hasClass("dropped")) {
-                    if ((targetArea.is("#source-area") && draggedElement.text() === "Source") ||
-                        (targetArea.is("#transit-area") && draggedElement.text() === "Transformation") ||
-                        (targetArea.is("#destination-area") && draggedElement.text() === "destination")) {
+                    if ((targetArea.is("#source-area") && draggedElement.text() === "Sources") ||
+                        (targetArea.is("#transit-area") && draggedElement.text() === "Transformations") ||
+                        (targetArea.is("#destination-area") && draggedElement.text() === "destinations")) {
                         var droppedElement = draggedElement.clone();
                         droppedElement.removeClass("ui-draggable-dragging");
                         droppedElement.draggable({ revert: "invalid", containment: getContainment(targetArea) });
