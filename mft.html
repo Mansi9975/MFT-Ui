@@ -20,19 +20,18 @@
 
     <div class="container">
         <div class="work-area" id="source-area">
-            
                 <div class="draggableBtn" onclick="openNav()">☰</div>
-                <div id="mySidepanel1" class="sidepanel">
-                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-                    <div class="dropdown">
-                        <div class="draggable dropbtn">Sources</div>
-                        
-                    </div>
-                </div>
-                <div class="watermarkSource">
-                    <h1>SOURCES</h1>
-               </div>
+                
         </div>
+        <div id="mySidepanel1" class="sidepanel">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+            <div class="dropdown">
+                <div class="draggable dropbtn">Sources</div>
+            </div>
+        </div>
+        <div class="watermarkSource">
+            <h1>SOURCES</h1>
+       </div>
         
         <div class="work-area" id="transit-area">
             <div class="draggableBtn" onclick="openNavTransit()">☰</div>
@@ -48,7 +47,7 @@
             <div class="draggableBtn" onclick="openNavDest()">☰</div>
             <div id="SidepaneDest" class="SidepaneDest">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNavDest()">×</a>
-                <div class="draggable dropbtn"Destinations</div>
+                <div class="draggable dropbtn">destinations</div>
             </div>
         </div>
         <div class="watermarkDest">
@@ -92,13 +91,48 @@
                     deleteElement(element);
                 }
             });
+            $(document).on("click", "#source-area .hover-list li", function () {
+                // Get the selected item text
+                var selectedItem = $(this).text();
+ 
+                // Replace the source element with the selected item
+                var sourceElement = $("#source-area .draggable");
+                sourceElement.text(selectedItem);
+ 
+                // Remove the hover list
+                $(this).closest('.dropped').find('.hover-list').remove();
+            });
+ 
+            $(document).on("click", "#transit-area .hover-list li", function () {
+                // Get the selected item text
+                var selectedItem = $(this).text();
+ 
+                // Replace the source element with the selected item
+                var transitElement = $("#transit-area .draggable");
+                transitElement.text(selectedItem);
+ 
+                // Remove the hover list
+                $(this).closest('.dropped').find('.hover-list').remove();
+            });
+ 
+            $(document).on("click", "#destination-area .hover-list li", function () {
+                // Get the selected item text
+                var selectedItem = $(this).text();
+ 
+                // Replace the source element with the selected item
+                var destinationElement = $("#destination-area .draggable");
+                destinationElement.text(selectedItem);
+ 
+                // Remove the hover list
+                $(this).closest('.dropped').find('.hover-list').remove();
+            });
  
             function handleDrop(event, ui, targetArea) {
                 var draggedElement = $(ui.helper).data("original") || $(ui.helper);
                 if (!draggedElement.hasClass("dropped")) {
                     if ((targetArea.is("#source-area") && draggedElement.text() === "Sources") ||
                         (targetArea.is("#transit-area") && draggedElement.text() === "Transformations") ||
-                        (targetArea.is("#destination-area") && draggedElement.text() === "Destinations")) {
+                        (targetArea.is("#destination-area") && draggedElement.text() === "destinations")) {
                         var droppedElement = draggedElement.clone();
                         droppedElement.removeClass("ui-draggable-dragging");
                         droppedElement.draggable({ revert: "invalid", containment: getContainment(targetArea) });
